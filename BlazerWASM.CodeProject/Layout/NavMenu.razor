@@ -1,0 +1,105 @@
+﻿@* <Blazicon Svg="FluentUiIcon.Alert"></Blazicon>
+ *@
+<style>
+    Svg{
+        margin-right: 2px;
+        font-size: 20px; 
+    } 
+
+    NavLink {
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+</style>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BlazerWASM.CodeProject</a>
+        <button class="navbar-toggler @NavButtonCssClass" type="button" data-toggle="collapse" data-target="#navbarCollapse" 
+            aria-controls="navbarCollapse" aria-label="Toggle Navigation" @onclick="ToggleNavMenu" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse @NavBarCssClass" id="navbarCollapse" @onclick="ToggleNavMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <Blazicon Svg="FluentUiIcon.Home" /> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter">
+                        <Blazicon Svg="FluentUiIcon.MathSymbols" /> Counter
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="weather">
+                        <Blazicon Svg="FluentUiIcon.WeatherCloudy" /> Weather
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="todolist">
+                        <Blazicon Svg="FluentUiIcon.List" /> To-Do List
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="login">
+                        <Blazicon Svg="FluentUiFilledIcon.EditPerson" /> Login
+                    </NavLink>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@* <div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BlazerWASM.CodeProject</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div> *@
+
+@* <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href=""  Match="NavLinkMatch.All">
+                <Blazicon Svg="FluentUiIcon.Home" /> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <Blazicon Svg="FluentUiIcon.Calculator" /> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <Blazicon Svg="FluentUiIcon.WeatherCloudy" /> Weather
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="todolist">
+                <Blazicon Svg="FluentUiIcon.List" /> To-Do List
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login">
+                <Blazicon Svg="FluentUiFilledIcon.EditPerson" /> Login
+            </NavLink>
+        </div>
+    </nav>
+</div> *@
+
+  
+
+@code {
+    private bool collapseNavMenu = false;
+
+    private string? NavBarCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavButtonCssClass => collapseNavMenu ? "collapsed" : null;
+
+    private void ToggleNavMenu()
+    {
+         collapseNavMenu = !collapseNavMenu;
+    }
+}

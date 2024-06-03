@@ -1,0 +1,77 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+
+
+<PageTitle>Login</PageTitle>
+
+<style>
+    input:invalid {
+        border-color: red;
+    }
+
+    .error {
+        display: block;
+    }   
+
+    input:optional {
+        border-style:dashed;
+    }
+
+    li {
+        margin-bottom: 4px;
+    }
+</style>
+
+<h3>Login</h3>
+
+<ul>
+    <li>
+        <label for="uname">User Name:</label>
+        <input id="uname" type="text" placeholder="Username" required @bind="uname" />
+    </li>
+
+    <li>
+        <label for="email">Email:</label>
+        <input id="email" type="email" placeholder="Email" required />
+    </li>
+
+    <li>
+        <label for="phone">Phone:</label>
+        <input id="phone" type="text" placeholder="Phone Number" />
+    </li>
+    
+
+    
+</ul>
+
+<button type="submit" class="btn btn-success" @onclick="Submit">Submit</button>
+
+
+<div>
+    @login
+</div>
+
+
+@code {
+    // [SupplyParameterFromForm]
+    public string login { get; set; }
+
+    // public Person outPerson { get; set; }
+
+    public string uname { get; set; }
+
+    public class LoginDetail
+    {
+        public string Username { get; set; }
+
+        public string Email { get; set; }
+
+        public string? Phone { get; set; }
+
+    }
+
+    public void Submit()
+    {
+        login = new LoginDetail { Username = uname }.ToString();
+    } 
+}

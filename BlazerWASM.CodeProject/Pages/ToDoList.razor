@@ -1,0 +1,95 @@
+﻿@page "/todolist"
+
+<PageTitle>To-Do List</PageTitle>
+
+<style>
+   .completed-message {
+       color: green;
+       font-weight: bold;
+       margin-left: 10px;
+   }
+
+   li {
+       margin-bottom: 5px;
+   }
+</style>
+
+
+
+<h1>To-Do List</h1>
+
+<div class="input-group mb-3">
+    <input type="text" class="form-control" @bind="newTask" />
+    <div class="input-group-append">
+        <button class="btn btn-success" @onclick="AddTask">Add Task</button>
+    </div>
+</div>
+
+<ul class="list-group">
+    @foreach (var task in tasks)
+    {
+        <li class="list-group-item d-flex justify-content-between">
+            <div>@task.Name</div>
+            @if (task.IsCompleted)
+            {
+                <div class="completed-message">Task completed!</div>
+            }
+            <button class="btn btn-outline-danger" @onclick="() => CompleteTask(task)">Complete</button>
+        </li>
+    }
+</ul>
+
+<button class="btn btn-danger" @onclick="ClearCompletedTasks">Clear Completed</button>
+<button class="btn btn-warning" @onclick="ClearTasks">Clear All</button>
+<p>@RemainingTasksCount tasks remaining</p>
+
+@code
+{
+    private string newTask;
+    private List<TaskItem> tasks = new List<TaskItem>();
+
+    private class TaskItem
+    {
+        public string Name { get; set; }
+        public bool IsCompleted { get; set; }
+        public bool ShowCompletedMessage { get; set; } = false;
+    }
+
+    private void AddTask()
+    {
+        if (!string.IsNullOrWhiteSpace(newTask))
+        {
+            tasks.Add(new TaskItem { Name = newTask });
+            newTask = string.Empty;
+        }
+    }
+
+    private void CompleteTask(TaskItem task)
+    {
+        task.IsCompleted = true;
+        task.ShowCompletedMessage = true;
+
+        // Hide the completed message after 2 seconds
+        Task.Run(async () =>
+        {
+            await Task.Delay(2000);
+            task.ShowCompletedMessage = false;
+            StateHasChanged();
+        });
+    }
+
+    private void ClearCompletedTasks()
+    {
+        tasks.RemoveAll(task => task.IsCompleted);
+    }
+
+    private int RemainingTasksCount
+    {
+        get { return tasks.Count(task => !task.IsCompleted); }
+    }
+
+    private void ClearTasks()
+    {
+        tasks.Clear();
+    }
+}

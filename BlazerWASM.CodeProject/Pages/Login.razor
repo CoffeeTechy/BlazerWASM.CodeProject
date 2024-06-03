@@ -20,6 +20,22 @@
     li {
         margin-bottom: 4px;
     }
+
+    div.logindetail
+    {
+        margin-top:13px;
+        border:solid;
+        height:auto;
+        padding:15px;
+    }
+
+    p {
+        margin-left:10px;
+    }
+
+    label.logindetail {
+        margin-bottom:10px;
+    }
 </style>
 
 <h3>Login</h3>
@@ -32,39 +48,54 @@
 
     <li>
         <label for="email">Email:</label>
-        <input id="email" type="email" placeholder="Email" required />
+        <input id="email" type="email" placeholder="Email" required @bind="mail" />
     </li>
 
     <li>
         <label for="phone">Phone:</label>
-        <input id="phone" type="text" placeholder="Phone Number" />
+        <input id="phone" type="text" placeholder="Phone Number" @bind="number"/>
     </li>
-    
-
-    
+        
 </ul>
 
 <button type="submit" class="btn btn-success" @onclick="Submit">Submit</button>
 
 
-<div>
-    @login
+<div class="logindetail">
+    <label class="logindetail">Login informaiton:</label>
+    @if (loggedin)
+    {
+        <p>
+            Username: @login.Username
+        </p>
+        <p>
+            Email: @login.Email
+        </p>
+        <p>
+            Phone Number: @login.Phone
+        </p>
+    }
+
 </div>
 
 
 @code {
     // [SupplyParameterFromForm]
-    public string login { get; set; }
+    public LoginDetail login { get; set; }
 
     // public Person outPerson { get; set; }
 
-    public string uname { get; set; }
+    public string? uname { get; set; }
+    public string? mail { get; set; }
+    public string? number { get; set; }
+
+    public bool loggedin { get; set; }
 
     public class LoginDetail
     {
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public string? Phone { get; set; }
 
@@ -72,6 +103,11 @@
 
     public void Submit()
     {
-        login = new LoginDetail { Username = uname }.ToString();
+        loggedin = true;
+        if (number == null)
+        {
+            number = "N/A";
+        }
+        login = new LoginDetail { Username = uname, Email = mail, Phone = number };
     } 
 }

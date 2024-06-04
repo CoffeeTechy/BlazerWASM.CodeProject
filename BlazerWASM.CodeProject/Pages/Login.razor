@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @using System.ComponentModel.DataAnnotations
+<Blazicons.Base.BlaziconBase></Blazicons.Base.BlaziconBase>
 
 
 <PageTitle>Login</PageTitle>
@@ -17,10 +18,6 @@
         border-style:dashed;
     }
 
-    li {
-        margin-bottom: 4px;
-    }
-
     div.logindetail
     {
         margin-top:13px;
@@ -36,29 +33,65 @@
     label.logindetail {
         margin-bottom:10px;
     }
+    button.btn-success {
+        margin-bottom:10px;
+        margin-top:5px;
+    }
+    div.form-group {
+        margin:5px;
+    }
+
+    button.btn-close {
+        font-size:28px;
+    }
+
+    Svg.info {
+        margin-left:40px;
+    }
+
 </style>
 
-<h3>Login</h3>
+<h3>Login Screen</h3>
 
-<ul>
-    <li>
-        <label for="uname">User Name:</label>
-        <input id="uname" type="text" placeholder="Username" required @bind="uname" />
-    </li>
 
-    <li>
-        <label for="email">Email:</label>
-        <input id="email" type="email" placeholder="Email" required @bind="mail" />
-    </li>
+@if (showlogin)
+{
+    <form @onsubmit="Submit" method="post">
+        @* <DataAnnotationsValidator />
+    <ValidationSummary /> *@
+        <div class="form-group">
+            <label for="uname">User Name:</label>
+            <input id="uname" type="text" placeholder="Username" @bind="uname" class="form-control" required />
+        </div>
 
-    <li>
-        <label for="phone">Phone:</label>
-        <input id="phone" type="text" placeholder="Phone Number" @bind="number"/>
-    </li>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" placeholder="Email" @bind="mail" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input id="phone" type="text" placeholder="Phone Number" @bind="number" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button class="btn btn-close" @onclick="CloseLogin" />
         
-</ul>
+    </form>
+}
 
-<button type="submit" class="btn btn-success" @onclick="Submit">Submit</button>
+<p>
+    @if (!showlogin)
+    {
+        <button class="btn btn-success" @onclick="OpenLogin">Login</button>
+    }
+    
+    @if (showlogin)
+    {   
+        <Blazicon Svg="FluentUiIcon.ErrorCircle" class="info" />  
+    }      
+</p>
+
 
 
 <div class="logindetail">
@@ -80,25 +113,33 @@
 
 
 @code {
-    // [SupplyParameterFromForm]
+    //[SupplyParameterFromForm]
     public LoginDetail login { get; set; }
 
-    // public Person outPerson { get; set; }
-
+    //[Required]
     public string? uname { get; set; }
+
+    //[Required]
     public string? mail { get; set; }
+
     public string? number { get; set; }
+
 
     public bool loggedin { get; set; }
 
+    public bool showlogin { get; set; } = false;
+
     public class LoginDetail
-    {
+    {       
+        // [Required]
+        // [MinLength(2, ErrorMessage = "Has to be at least 2 charcters long")]
         public string? Username { get; set; }
 
+        // [Required]
+        // [EmailAddress(ErrorMessage = "This is required")]
         public string? Email { get; set; }
 
         public string? Phone { get; set; }
-
     }
 
     public void Submit()
@@ -110,4 +151,15 @@
         }
         login = new LoginDetail { Username = uname, Email = mail, Phone = number };
     } 
+
+    public void OpenLogin()
+    {
+        showlogin = true;
+    }
+
+    public void CloseLogin()
+    {
+        showlogin = false;
+        login = new LoginDetail { };
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@* <Blazicon Svg="FluentUiIcon.Alert"></Blazicon>
  *@
 <style>
-    Svg{
+   /*  Svg{
         margin-right: 2px;
         font-size: 20px; 
     } 
@@ -9,8 +9,8 @@
     NavLink {
         margin-right: 8px;
         margin-left: 8px;
-    }
-</style>
+    } */
+</style> 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container-fluid">
@@ -21,30 +21,30 @@
         </button>
         <div class="collapse navbar-collapse @NavBarCssClass" id="navbarCollapse" @onclick="ToggleNavMenu">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <li class="nav-item">
+                <li>
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                         <Blazicon Svg="FluentUiIcon.Home" /> Home
                     </NavLink>
                 </li>
-                <li class="nav-item">
+                <li>
                     <NavLink class="nav-link" href="counter">
                         <Blazicon Svg="FluentUiIcon.MathSymbols" /> Counter
                     </NavLink>
                 </li>
-                <li class="nav-item">
+                <li>
                     <NavLink class="nav-link" href="weather">
                         <Blazicon Svg="FluentUiIcon.WeatherCloudy" /> Weather
                     </NavLink>
                 </li>
-                <li class="nav-item">
+                <li>
                     <NavLink class="nav-link" href="todolist">
                         <Blazicon Svg="FluentUiIcon.List" /> To-Do List
                     </NavLink>
                 </li>
-                <li class="nav-item">
+                <li>
                     <NavLink class="nav-link" href="login">
                         <Blazicon Svg="FluentUiFilledIcon.EditPerson" /> Login
-                    </NavLink>
+                    </NavLink> 
                 </li>
             </ul>
         </div>

@@ -6,19 +6,20 @@
 
 Welcome to your new app.
 
-<div class="card mb-4">
+@* <div class="card mb-4">
     <div class="card-body">
         <p class="card-text">
-            <CodeBlock>@("Modal.Show<Confirm>(\"Welcome to Blazored Modal\", options);")</CodeBlock>
+            @("Modal.Show<Confirm>(\"Welcome to Blazored Modal\", options);")
         </p>
     </div>
-</div>
-
-<button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
+</div> *@
+<p>
+    <button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
+</p>
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
     void ShowModal()
-        => Modal.Show<Confirm>("Welcome to Blazored Modal");
+        => Modal.Show<EditFormModal>("Welcome to Blazored Modal");
 }

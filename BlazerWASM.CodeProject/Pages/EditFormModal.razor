@@ -1,0 +1,116 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<style>
+	h5 {
+		padding:5px;
+	}
+
+
+</style>
+
+<h2>Task List</h2>
+<h5>@TaskAdded</h5>
+
+<EditForm Model="tasks" OnValidSubmit="ValidSubmit" OnInvalidSubmit="InvalidSubmit">
+	<DataAnnotationsValidator/>
+	@* <ValidationSummary/> *@
+	
+	<label>
+		Priority: &nbsp;  
+		<InputRadioGroup id="priority" @bind-Value="tasks.Priority" style="padding:5px;">
+			@foreach (bool choice in yesorno)
+			{
+				<label>
+					@choice <InputRadio Value="choice" /> &nbsp;
+				</label>
+				
+			}
+		</InputRadioGroup>
+	</label>
+	<br/>
+
+	<label for="task">
+		Task: &nbsp; <InputTextArea id="task" @bind-Value="tasks.TaskName" style="padding:5px;width:450px;height:150px;vertical-align:top;"></InputTextArea>
+	</label>
+	<ValidationMessage For="@( () => tasks.TaskName )" />
+	<br/>
+
+	<div class="input-group">
+		<label for="numofitems">
+			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;"></InputNumber>
+		</label>
+		<ValidationMessage For="@( () => tasks.NumberofItems )" />
+	</div>	
+	
+	<p>
+		<input type="submit" value="submit" class="btn btn-outline-success" />
+	</p>	
+	
+	@foreach (ValidTask listitem in validlist)
+	{
+		<div>
+			<label>
+				Priority: @listitem.p
+			</label>
+			
+		</div>
+		<div>
+			Task: @listitem.tname
+		</div>
+		@if (listitem.numitems > 0)
+		{
+			<div>
+				Number of Items: @listitem.numitems
+			</div>
+		}		
+	}
+</EditForm>
+
+@code {
+	TaskList tasks = new TaskList();
+	public string TaskAdded { get; set; }
+	List<bool> yesorno = new List<bool>() { true, false };
+
+	ValidTask submittedtask = new();
+	List<ValidTask> validlist = new();
+
+	public class ValidTask
+	{
+		public string? tname { get; set; }
+
+		public int numitems { get; set; }
+
+		public bool p { get; set; }
+	}
+
+	public class TaskList
+	{
+		[Required(ErrorMessage = "Must make an entry!")]
+		[StringLength(200, ErrorMessage = "Must be under 200 characters")]
+		public string TaskName { get; set; }
+
+		[Range(0, 999, ErrorMessage = "Must be positive and no more than 999")]
+		public int NumberofItems { get; set; }
+
+		[Required]
+		public bool Priority { get; set; }
+	}
+
+	public async void ValidSubmit()
+	{
+		submittedtask = new ValidTask { tname = tasks.TaskName, numitems = tasks.NumberofItems, p = tasks.Priority };
+		TaskAdded = "Task Added!";
+
+		AddtoList(submittedtask);
+	}
+
+	public void InvalidSubmit()
+	{
+		TaskAdded = "Double check entry";
+	}
+
+	public void AddtoList(ValidTask addingtask)
+	{
+		validlist.Add(addingtask);
+	}
+}

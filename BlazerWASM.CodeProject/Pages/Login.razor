@@ -51,32 +51,38 @@
 
 </style>
 
-<h3>Login Screen</h3>
+@if (!showlogin)
+{
+    <h3>Login Screen</h3>
+}
 
 
 @if (showlogin)
 {
     <form @onsubmit="Submit" method="post">
+        <fieldset>
+            <legend>Enter login details</legend>
+            <div class="form-group">
+                <label for="uname">Username:</label>
+                <input id="uname" type="text" placeholder="Username" @bind="uname" class="form-control" />
+            </div>
+            <label>OR</label>          
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" type="email" placeholder="Email" @bind="mail" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="passw">Password:</label>
+                <input id="passw" type="password" placeholder="Password" @bind="pword" class="form-control" required/>
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button class="btn btn-close" @onclick="CloseLogin" />
+        </fieldset>
         @* <DataAnnotationsValidator />
     <ValidationSummary /> *@
-        <div class="form-group">
-            <label for="uname">User Name:</label>
-            <input id="uname" type="text" placeholder="Username" @bind="uname" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input id="email" type="email" placeholder="Email" @bind="mail" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input id="phone" type="text" placeholder="Phone Number" @bind="number" class="form-control" />
-        </div>
-
-        <button type="submit" class="btn btn-success">Submit</button>
-        <button class="btn btn-close" @onclick="CloseLogin" />
-        
+               
     </form>
 }
 
@@ -105,7 +111,7 @@
             Email: @login.Email
         </p>
         <p>
-            Phone Number: @login.Phone
+            Phone Number: @login.Password
         </p>
     }
 
@@ -113,16 +119,13 @@
 
 
 @code {
-    //[SupplyParameterFromForm]
     public LoginDetail login { get; set; }
 
-    //[Required]
     public string? uname { get; set; }
 
-    //[Required]
     public string? mail { get; set; }
 
-    public string? number { get; set; }
+    public string? pword { get; set; }
 
 
     public bool loggedin { get; set; }
@@ -131,25 +134,17 @@
 
     public class LoginDetail
     {       
-        // [Required]
-        // [MinLength(2, ErrorMessage = "Has to be at least 2 charcters long")]
         public string? Username { get; set; }
 
-        // [Required]
-        // [EmailAddress(ErrorMessage = "This is required")]
         public string? Email { get; set; }
 
-        public string? Phone { get; set; }
+        public string? Password { get; set; }
     }
 
     public void Submit()
     {
         loggedin = true;
-        if (number == null)
-        {
-            number = "N/A";
-        }
-        login = new LoginDetail { Username = uname, Email = mail, Phone = number };
+        login = new LoginDetail { Username = uname, Email = mail, Password = pword };
     } 
 
     public void OpenLogin()
@@ -162,4 +157,5 @@
         showlogin = false;
         login = new LoginDetail { };
     }
+
 }

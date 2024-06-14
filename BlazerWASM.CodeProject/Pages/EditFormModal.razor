@@ -5,7 +5,9 @@
 		padding:5px;
 	}
 
-
+	div.input-group {
+		margin-top:5px;
+	}
 </style>
 
 <h2>Task List</h2>
@@ -37,7 +39,7 @@
 
 	<div class="input-group">
 		<label for="numofitems">
-			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;"></InputNumber>
+			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;;"></InputNumber>
 		</label>
 		<ValidationMessage For="@( () => tasks.NumberofItems )" />
 	</div>	

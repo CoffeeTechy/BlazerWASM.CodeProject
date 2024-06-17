@@ -2,17 +2,16 @@
 
 <PageTitle>Home</PageTitle>
 
+<style>
+    p {
+        margin-top:10px;
+    }
+</style>
+
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+Welcome to your new app. Click the modal button to open a form.
 
-@* <div class="card mb-4">
-    <div class="card-body">
-        <p class="card-text">
-            @("Modal.Show<Confirm>(\"Welcome to Blazored Modal\", options);")
-        </p>
-    </div>
-</div> *@
 <p>
     <button @onclick="ShowModal" class="btn btn-primary">Show Modal</button>
 </p>

@@ -15,8 +15,7 @@
 
 <EditForm Model="tasks" OnValidSubmit="ValidSubmit" OnInvalidSubmit="InvalidSubmit">
 	<DataAnnotationsValidator/>
-	@* <ValidationSummary/> *@
-	
+
 	<label>
 		Priority: &nbsp;  
 		<InputRadioGroup id="priority" @bind-Value="tasks.Priority" style="padding:5px;">
@@ -39,7 +38,7 @@
 
 	<div class="input-group">
 		<label for="numofitems">
-			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;;"></InputNumber>
+			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;"></InputNumber>
 		</label>
 		<ValidationMessage For="@( () => tasks.NumberofItems )" />
 	</div>	

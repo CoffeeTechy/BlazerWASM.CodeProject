@@ -8,27 +8,19 @@
 	div.input-group {
 		margin-top:5px;
 	}
+	div.list-group-item {
+		margin:5px;
+		border:solid,thin;
+		border-color:black;
+		margin-bottom:10px;
+	}
 </style>
 
-<h2>Task List</h2>
+@* <h2>Task List</h2> *@
 <h5>@TaskAdded</h5>
 
 <EditForm Model="tasks" OnValidSubmit="ValidSubmit" OnInvalidSubmit="InvalidSubmit">
 	<DataAnnotationsValidator/>
-
-	<label>
-		Priority: &nbsp;  
-		<InputRadioGroup id="priority" @bind-Value="tasks.Priority" style="padding:5px;">
-			@foreach (bool choice in yesorno)
-			{
-				<label>
-					@choice <InputRadio Value="choice" /> &nbsp;
-				</label>
-				
-			}
-		</InputRadioGroup>
-	</label>
-	<br/>
 
 	<label for="task">
 		Task: &nbsp; <InputTextArea id="task" @bind-Value="tasks.TaskName" style="padding:5px;width:450px;height:150px;vertical-align:top;"></InputTextArea>
@@ -41,7 +33,21 @@
 			Number of Items: <InputNumber id="numofitems" @bind-Value="tasks.NumberofItems" style="width:50px;"></InputNumber>
 		</label>
 		<ValidationMessage For="@( () => tasks.NumberofItems )" />
-	</div>	
+	</div>
+	<br />
+
+	<label>
+		Priority: &nbsp;
+		<InputRadioGroup id="priority" @bind-Value="tasks.Priority" style="padding:5px;">
+			@foreach (bool choice in yesorno)
+			{
+				<label>
+					@choice <InputRadio Value="choice" /> &nbsp;
+				</label>
+
+			}
+		</InputRadioGroup>
+	</label>	
 	
 	<p>
 		<input type="submit" value="submit" class="btn btn-outline-success" />
@@ -49,21 +55,23 @@
 	
 	@foreach (ValidTask listitem in validlist)
 	{
-		<div>
-			<label>
-				Priority: @listitem.p
-			</label>
-			
-		</div>
-		<div>
+		<span>#: @listitem.validnumber</span>
+		<div class="list-group-item">
 			Task: @listitem.tname
-		</div>
-		@if (listitem.numitems > 0)
-		{
-			<div>
-				Number of Items: @listitem.numitems
+			<div class="list-group-item-primary">
+				<label>
+					Priority: @listitem.p
+				</label>
+
 			</div>
-		}		
+			@if (listitem.numitems > 0)
+			{
+				<div class="list-group-item-secondary">
+					Number of Items: @listitem.numitems
+				</div>
+			}
+			<button @onclick="DeletefromList">Delete</button>
+		</div>					
 	}
 </EditForm>
 
@@ -73,7 +81,7 @@
 	List<bool> yesorno = new List<bool>() { true, false };
 
 	ValidTask submittedtask = new();
-	List<ValidTask> validlist = new();
+	List<ValidTask> validlist = new();		
 
 	public class ValidTask
 	{
@@ -82,6 +90,8 @@
 		public int numitems { get; set; }
 
 		public bool p { get; set; }
+
+		public int validnumber { get; set; }
 	}
 
 	public class TaskList
@@ -95,11 +105,14 @@
 
 		[Required]
 		public bool Priority { get; set; }
+
+		public int listnumber { get; set; } = 0;
 	}
 
 	public async void ValidSubmit()
 	{
-		submittedtask = new ValidTask { tname = tasks.TaskName, numitems = tasks.NumberofItems, p = tasks.Priority };
+		tasks.listnumber++;
+		submittedtask = new ValidTask { tname = tasks.TaskName, numitems = tasks.NumberofItems, p = tasks.Priority, validnumber = tasks.listnumber};
 		TaskAdded = "Task Added!";
 
 		AddtoList(submittedtask);
@@ -107,11 +120,16 @@
 
 	public void InvalidSubmit()
 	{
-		TaskAdded = "Double check entry";
+		TaskAdded = "Double check your entry";
 	}
 
 	public void AddtoList(ValidTask addingtask)
 	{
 		validlist.Add(addingtask);
+	}	
+
+	public void DeletefromList()
+	{		
+		
 	}
 }

@@ -20,5 +20,13 @@ Welcome to your new app. Click the modal button to open a form.
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
 
     void ShowModal()
-        => Modal.Show<EditFormModal>("Welcome to Blazored Modal");
+    {
+        Modal.Show<EditFormModal>("Welcome to Blazored Modal", options);
+    }
+
+    ModalOptions options = new ModalOptions()
+    {
+        AnimationType = ModalAnimationType.FadeInOut,
+        Position = ModalPosition.Middle
+    };
 }

@@ -14,6 +14,14 @@
 		border-color:black;
 		margin-bottom:10px;
 	}
+
+	Svg.dlt-btn {
+		font-size:15px;
+		margin-left:5px;
+	}
+	label.dlt-icon {
+		margin-left:50px;
+	}
 </style>
 
 @* <h2>Task List</h2> *@
@@ -52,10 +60,14 @@
 	<p>
 		<input type="submit" value="submit" class="btn btn-outline-success" />
 	</p>	
+	<p>List number: @listnum</p>
 	
 	@foreach (ValidTask listitem in validlist)
 	{
-		<span>#: @listitem.validnumber</span>
+		<span>Task number: @listitem.validnumber</span>
+		<label class="dlt-icon">Delete task:
+			<Blazicon Svg="FluentUiIcon.DeleteDismiss" @onclick="(() => DeletefromList(listitem))" class="dlt-btn"/>
+		</label>		
 		<div class="list-group-item">
 			Task: @listitem.tname
 			<div class="list-group-item-primary">
@@ -69,9 +81,8 @@
 				<div class="list-group-item-secondary">
 					Number of Items: @listitem.numitems
 				</div>
-			}
-			<button @onclick="DeletefromList">Delete</button>
-		</div>					
+			}			
+		</div>			
 	}
 </EditForm>
 
@@ -81,7 +92,9 @@
 	List<bool> yesorno = new List<bool>() { true, false };
 
 	ValidTask submittedtask = new();
-	List<ValidTask> validlist = new();		
+	List<ValidTask> validlist = new();
+
+	public int listnum { get; set; }
 
 	public class ValidTask
 	{
@@ -126,10 +139,32 @@
 	public void AddtoList(ValidTask addingtask)
 	{
 		validlist.Add(addingtask);
+		listnum = validlist.Count;
 	}	
 
-	public void DeletefromList()
-	{		
-		
+	public void DeletefromList(ValidTask vt)
+	{
+		listnum--;
+		if (validlist.Contains(vt))
+		{
+			validlist.Remove(vt);
+		}
+		if (tasks.listnumber < 0)
+		{
+			tasks.listnumber = 0;
+		}
+		if (validlist.Count == 0)
+		{
+			tasks.listnumber = 0;
+			listnum = 0;
+		}
+		if (listnum == 0)
+		{
+			validlist.RemoveAt(0);
+		}
+		if (listnum < 0)
+		{
+			listnum = 0;
+		}
 	}
 }

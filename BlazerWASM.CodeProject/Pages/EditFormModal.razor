@@ -20,7 +20,7 @@
 		margin-left:5px;
 	}
 	label.dlt-icon {
-		margin-left:50px;
+		margin-left:48px;
 	}
 </style>
 
@@ -59,30 +59,35 @@
 	
 	<p>
 		<input type="submit" value="submit" class="btn btn-outline-success" />
-	</p>	
-	<p>List number: @listnum</p>
+	</p>
+	<p># of List items: @listnum</p>
 	
 	@foreach (ValidTask listitem in validlist)
 	{
-		<span>Task number: @listitem.validnumber</span>
-		<label class="dlt-icon">Delete task:
-			<Blazicon Svg="FluentUiIcon.DeleteDismiss" @onclick="(() => DeletefromList(listitem))" class="dlt-btn"/>
-		</label>		
-		<div class="list-group-item">
-			Task: @listitem.tname
-			<div class="list-group-item-primary">
-				<label>
-					Priority: @listitem.p
-				</label>
+		<tr @key="@listitem">
+			<span>Task number: @listitem.validnumber</span>
+			<label class="dlt-icon">
+				<!-- Apparently, <tr> was needed a long with "key" -->
+				Delete task:
+				<Blazicon Svg="FluentUiIcon.DeleteDismiss" @onclick="(() => DeletefromList(listitem))" class="dlt-btn"/>
+			</label>
+			<div class="list-group-item">
+				Task: @listitem.tname
+				<div class="list-group-item-primary">
+					<label>
+						Priority: @listitem.p
+					</label>
 
-			</div>
-			@if (listitem.numitems > 0)
-			{
-				<div class="list-group-item-secondary">
-					Number of Items: @listitem.numitems
 				</div>
-			}			
-		</div>			
+				@if (listitem.numitems > 0)
+				{
+					<div class="list-group-item-secondary">
+						Number of Items: @listitem.numitems
+					</div>
+				}
+			</div>
+		</tr>
+				
 	}
 </EditForm>
 
@@ -144,27 +149,7 @@
 
 	public void DeletefromList(ValidTask vt)
 	{
-		listnum--;
-		if (validlist.Contains(vt))
-		{
-			validlist.Remove(vt);
-		}
-		if (tasks.listnumber < 0)
-		{
-			tasks.listnumber = 0;
-		}
-		if (validlist.Count == 0)
-		{
-			tasks.listnumber = 0;
-			listnum = 0;
-		}
-		if (listnum == 0)
-		{
-			validlist.RemoveAt(0);
-		}
-		if (listnum < 0)
-		{
-			listnum = 0;
-		}
-	}
+	 	listnum--;
+	 	validlist.Remove(vt);
+	}	
 }
